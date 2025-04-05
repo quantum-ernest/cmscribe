@@ -74,7 +74,7 @@ def process_create_config() -> None:
     print("Configuration file created with default settings.")
 
 
-def process_update_config(args: argparse.Namespace) -> None:
+def process_update_config(args: argparse.Namespace, update_config_parser: argparse.ArgumentParser) -> None:
     """Process the update config command."""
     if not args.provider and not any(
         [
@@ -84,6 +84,7 @@ def process_update_config(args: argparse.Namespace) -> None:
         ]
     ):
         print("Error: No settings to update. Please provide at least one setting.")
+        update_config_parser.print_help()
         return
 
     update_config(

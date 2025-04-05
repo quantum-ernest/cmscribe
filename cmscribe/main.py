@@ -2,7 +2,7 @@
 
 import argparse
 import json
-
+from cmscribe import __version__
 from cmscribe.core import CacheManager, get_default_provider
 from cmscribe.utils import (process_create_config, process_gen_command,
                             process_update_config)
@@ -10,7 +10,7 @@ from cmscribe.utils import (process_create_config, process_gen_command,
 
 def main():
     """Main entry point."""
-    parser = argparse.ArgumentParser(description="AI-powered commit message generator")
+    parser = argparse.ArgumentParser(description="🤖 AI-powered commit message generator")
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # Generate command
@@ -146,6 +146,8 @@ def main():
         help="Clear all caches",
     )
 
+    parser.add_argument('--version', "-v", action='version', version=__version__)
+
     args = parser.parse_args()
 
     if args.command == "gen":
@@ -154,7 +156,7 @@ def main():
         if args.config_command == "create":
             process_create_config()
         elif args.config_command == "update":
-            process_update_config(args)
+            process_update_config(args, update_parser)
         elif args.config_command == "show":
             from cmscribe.core import load_config
             config = load_config()
@@ -172,6 +174,10 @@ def main():
                             print(f"  {key}: {value}")
 
             print(f"\nDefault Provider: {get_default_provider()}")
+        elif args.config_command is None:
+            config_parser.print_help()
+        else:
+            print("Invalid config command. Use 'create', 'update', or 'show'.")
     elif args.command == "cache":
         cache_manager = CacheManager()
         if args.cache_command == "clear":
@@ -198,6 +204,14 @@ def main():
                     print(f"All caches cleared for {args.provider}.")
             else:
                 print("Please specify --provider or --all to clear caches.")
+        elif args.cache_command is None:
+            cache_parser.print_help()
+        else:
+            print("Invalid cache command. Use 'clear'.")
+    elif args.command is None:
+        parser.print_help()
+    else:
+        print("Invalid command. Use 'gen', 'config', or 'cache'.")
 
 
 if __name__ == "__main__":
