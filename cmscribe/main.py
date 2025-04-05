@@ -16,7 +16,7 @@ def main():
     # Generate command
     gen_parser = subparsers.add_parser("gen", help="Generate a commit message")
     gen_parser.add_argument(
-        "--provider",
+        "--provider","-p",
         help="AI provider to use (overrides default)",
         choices=[
             "openai",
@@ -28,17 +28,17 @@ def main():
         ],
     )
     gen_parser.add_argument(
-        "--format",
+        "--format", "-f",
         help="Commit message format",
         choices=["conventional", "semantic", "simple", "angular"],
     )
     gen_parser.add_argument(
-        "--auto",
+        "--auto", "-a",
         action="store_true",
         help="Automatically commit after generating message",
     )
     gen_parser.add_argument(
-        "--clear-context",
+        "--clear-context", "-cc",
         action="store_true",
         help="Clear context cache before generation",
     )
@@ -57,7 +57,7 @@ def main():
     # Update config
     update_parser = config_subparsers.add_parser("update", help="Update configuration")
     update_parser.add_argument(
-        "--provider",
+        "--provider", "-p",
         help="AI provider to configure",
         choices=[
             "openai",
@@ -69,44 +69,44 @@ def main():
         ],
     )
     update_parser.add_argument(
-        "--api-key",
+        "--api-key", "-a",
         help="API key for the provider",
     )
     update_parser.add_argument(
-        "--endpoint",
+        "--endpoint", "-e",
         help="API endpoint for the provider",
     )
     update_parser.add_argument(
-        "--model",
+        "--model", "-m",
         help="Model to use with the provider",
     )
     update_parser.add_argument(
-        "--max-tokens",
+        "--max-tokens", "-mt",
         type=int,
         help="Maximum tokens for generation",
     )
     update_parser.add_argument(
-        "--temperature",
+        "--temperature", "-t",
         type=float,
         help="Temperature for generation",
     )
     update_parser.add_argument(
-        "--format",
+        "--format", "-f",
         help="Default commit message format",
         choices=["conventional", "semantic", "simple", "angular"],
     )
     update_parser.add_argument(
-        "--auto-commit",
+        "--auto-commit", "-ac",
         type=bool,
         help="Enable/disable auto-commit",
     )
     update_parser.add_argument(
-        "--cache-responses",
+        "--cache-responses", "-cr",
         type=bool,
         help="Enable/disable response caching",
     )
     update_parser.add_argument(
-        "--set-default",
+        "--set-default", "-sd",
         action="store_true",
         help="Set the specified provider as default",
     )
@@ -125,7 +125,7 @@ def main():
     # Clear cache
     clear_parser = cache_subparsers.add_parser("clear", help="Clear cache")
     clear_parser.add_argument(
-        "--provider",
+        "--provider", "-p",
         help="Provider to clear cache for",
         choices=[
             "openai",
@@ -137,11 +137,11 @@ def main():
         ],
     )
     clear_parser.add_argument(
-        "--model",
+        "--model", "-m",
         help="Model to clear cache for",
     )
     clear_parser.add_argument(
-        "--all",
+        "--all", "-a",
         action="store_true",
         help="Clear all caches",
     )
@@ -156,8 +156,7 @@ def main():
         elif args.config_command == "update":
             process_update_config(args)
         elif args.config_command == "show":
-            from .core.config import load_config
-
+            from cmscribe.core import load_config
             config = load_config()
             print("\nCurrent Configuration:")
             print("\nCore Settings:")
@@ -180,16 +179,14 @@ def main():
                 cache_manager.clear_all_contexts()
                 print("All caches cleared.")
             elif args.provider:
-                from pathlib import Path
-
-                repo_path = str(Path.cwd().resolve())
+                from cmscribe.utils import get_repo_name
+                repo_name = get_repo_name()
                 if args.model:
-                    cache_manager.clear_context(repo_path, args.provider, args.model)
+                    cache_manager.clear_context(repo_name, args.provider, args.model)
                     print(
                         f"Cache cleared for {args.provider} ({args.model}) in current repository."
                     )
                 else:
-                    # Clear all models for the provider
                     for cache_file in cache_manager.cache_dir.glob("*.json"):
                         try:
                             with open(cache_file, "r") as f:
