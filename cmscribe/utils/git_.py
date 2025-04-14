@@ -1,6 +1,9 @@
-from git import Repo
+from git import Repo, InvalidGitRepositoryError
 
-repo = Repo(".", search_parent_directories=True)
+try:
+    repo = Repo(".", search_parent_directories=True)
+except InvalidGitRepositoryError:
+    print("No git repository found. Please run `git init` first.")
 
 
 def get_staged_files():

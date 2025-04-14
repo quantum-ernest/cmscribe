@@ -62,8 +62,7 @@ def process_gen_command(args: argparse.Namespace) -> None:
                 # TODO: Implement auto-commit functionality
                 print("\nAuto-commit functionality coming soon!")
         else:
-            print("No commit message generated.")
-            print(err)
+            print(f"No commit message generated, {str(err)}")
     except Exception as e:
         print(f"Error generating commit message: {str(e)}")
 

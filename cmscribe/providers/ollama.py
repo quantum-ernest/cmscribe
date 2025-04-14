@@ -37,7 +37,7 @@ class OllamaProvider(AIProvider):
         # Get the diff content
         content = get_file_content_before_after(staged_files)
         diff_content = "\n".join(
-            [f"File: {file}\n{content[file]['after']}" for file in staged_files]
+            [f"File: {file}\n{content[file]}" for file in staged_files]
         )
 
         # Format the prompt
