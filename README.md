@@ -16,14 +16,14 @@ AI-powered commit message generator that leverages various AI providers to creat
   - Anthropic
   - Google
   - Azure OpenAI
-  - Ollama
+  - Ollama ✅
   - HuggingFace
 
 - **Commit Message Formats**
-  - Conventional Commits
-  - Semantic Versioning
-  - Simple format
-  - Angular format
+  - Conventional Commits (`<type>(<scope>): <description>`)
+  - Semantic Versioning (`<type>: <description>`)
+  - Simple format (`<description>`)
+  - Angular format (`<type>(<scope>): <description>`)
 
 - **Smart Configuration**
   - Multiple provider configurations

@@ -77,23 +77,28 @@ class OllamaProvider(AIProvider):
     def _format_prompt(self, diff: str, commit_format: CommitFormat) -> str:
         """Format the prompt for Ollama."""
         format_instructions = {
-            CommitFormat.CONVENTIONAL: (
-                "Generate a commit message following the Conventional Commits format.\n"
-                "Format: <type>(<scope>): <description>\n"
-                "Types: feat, fix, chore, refactor, docs, test, ci, build"
-            ),
-            CommitFormat.SEMANTIC: (
-                "Generate a commit message following Semantic Versioning.\n"
-                "Format: <type>: <description>\n"
-                "Types: major, minor, patch"
-            ),
-            CommitFormat.SIMPLE: ("Generate a simple commit message.\nFormat: <description>"),
-            CommitFormat.ANGULAR: (
-                "Generate a commit message following the Angular format.\n"
-                "Format: <type>(<scope>): <description>\n"
-                "Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert"
-            ),
-        }
+    CommitFormat.CONVENTIONAL: (
+        "Generate a commit message following the Conventional Commits format.\n"
+        "Format: <type>(<scope>): <description>\n"
+        "Types: feat, fix, chore, refactor, docs, test, ci, build\n"
+        "Use the imperative mood in the description (e.g., 'fix bug', not 'fixed bug')."
+    ),
+    CommitFormat.SEMANTIC: (
+        "Generate a commit message following Semantic Versioning.\n"
+        "Format: <type>: <description>\n"
+        "Types: major, minor, patch"
+    ),
+    CommitFormat.SIMPLE: (
+        "Generate a simple commit message.\n"
+        "Format: <description>"
+    ),
+    CommitFormat.ANGULAR: (
+        "Generate a commit message following the Angular commit format.\n"
+        "Format: <type>(<scope>): <description>\n"
+        "Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert"
+    ),
+}
+
 
         return (
             f"{format_instructions[commit_format]}\n\n"
