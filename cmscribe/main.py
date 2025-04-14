@@ -4,8 +4,7 @@ import argparse
 import json
 from cmscribe import __version__
 from cmscribe.core import CacheManager, get_default_provider
-from cmscribe.utils import (process_create_config, process_gen_command,
-                            process_update_config)
+from cmscribe.utils import process_create_config, process_gen_command, process_update_config
 
 
 def main():
@@ -16,7 +15,8 @@ def main():
     # Generate command
     gen_parser = subparsers.add_parser("gen", help="Generate a commit message")
     gen_parser.add_argument(
-        "--provider","-p",
+        "--provider",
+        "-p",
         help="AI provider to use (overrides default)",
         choices=[
             "openai",
@@ -28,36 +28,36 @@ def main():
         ],
     )
     gen_parser.add_argument(
-        "--format", "-f",
+        "--format",
+        "-f",
         help="Commit message format",
         choices=["conventional", "semantic", "simple", "angular"],
     )
     gen_parser.add_argument(
-        "--auto", "-a",
+        "--auto",
+        "-a",
         action="store_true",
         help="Automatically commit after generating message",
     )
     gen_parser.add_argument(
-        "--clear-context", "-cc",
+        "--clear-context",
+        "-cc",
         action="store_true",
         help="Clear context cache before generation",
     )
 
     # Config commands
     config_parser = subparsers.add_parser("config", help="Configuration management")
-    config_subparsers = config_parser.add_subparsers(
-        dest="config_command", help="Config commands"
-    )
+    config_subparsers = config_parser.add_subparsers(dest="config_command", help="Config commands")
 
     # Create config
-    create_parser = config_subparsers.add_parser(
-        "create", help="Create new configuration"
-    )
+    create_parser = config_subparsers.add_parser("create", help="Create new configuration")
 
     # Update config
     update_parser = config_subparsers.add_parser("update", help="Update configuration")
     update_parser.add_argument(
-        "--provider", "-p",
+        "--provider",
+        "-p",
         help="AI provider to configure",
         choices=[
             "openai",
@@ -69,63 +69,69 @@ def main():
         ],
     )
     update_parser.add_argument(
-        "--api-key", "-a",
+        "--api-key",
+        "-a",
         help="API key for the provider",
     )
     update_parser.add_argument(
-        "--endpoint", "-e",
+        "--endpoint",
+        "-e",
         help="API endpoint for the provider",
     )
     update_parser.add_argument(
-        "--model", "-m",
+        "--model",
+        "-m",
         help="Model to use with the provider",
     )
     update_parser.add_argument(
-        "--max-tokens", "-mt",
+        "--max-tokens",
+        "-mt",
         type=int,
         help="Maximum tokens for generation",
     )
     update_parser.add_argument(
-        "--temperature", "-t",
+        "--temperature",
+        "-t",
         type=float,
         help="Temperature for generation",
     )
     update_parser.add_argument(
-        "--format", "-f",
+        "--format",
+        "-f",
         help="Default commit message format",
         choices=["conventional", "semantic", "simple", "angular"],
     )
     update_parser.add_argument(
-        "--auto-commit", "-ac",
+        "--auto-commit",
+        "-ac",
         type=bool,
         help="Enable/disable auto-commit",
     )
     update_parser.add_argument(
-        "--cache-responses", "-cr",
+        "--cache-responses",
+        "-cr",
         type=bool,
         help="Enable/disable response caching",
     )
     update_parser.add_argument(
-        "--set-default", "-sd",
+        "--set-default",
+        "-sd",
         action="store_true",
         help="Set the specified provider as default",
     )
 
     # Show config
-    show_parser = config_subparsers.add_parser(
-        "show", help="Show current configuration"
-    )
+    show_parser = config_subparsers.add_parser("show", help="Show current configuration")
 
     # Cache commands
     cache_parser = subparsers.add_parser("cache", help="Cache management")
-    cache_subparsers = cache_parser.add_subparsers(
-        dest="cache_command", help="Cache commands"
-    )
+    cache_subparsers = cache_parser.add_subparsers(dest="cache_command", help="Cache commands")
 
     # Clear cache
     clear_parser = cache_subparsers.add_parser("clear", help="Clear cache")
     clear_parser.add_argument(
-        "--provider", "-p",
+        "--provider",
+        "-p",
         help="Provider to clear cache for",
         choices=[
             "openai",
@@ -137,16 +143,18 @@ def main():
         ],
     )
     clear_parser.add_argument(
-        "--model", "-m",
+        "--model",
+        "-m",
         help="Model to clear cache for",
     )
     clear_parser.add_argument(
-        "--all", "-a",
+        "--all",
+        "-a",
         action="store_true",
         help="Clear all caches",
     )
 
-    parser.add_argument('--version', "-v", action='version', version=__version__)
+    parser.add_argument("--version", "-v", action="version", version=__version__)
 
     args = parser.parse_args()
 
@@ -159,6 +167,7 @@ def main():
             process_update_config(args, update_parser)
         elif args.config_command == "show":
             from cmscribe.core import load_config
+
             config = load_config()
             print("\nCurrent Configuration:")
             print("\nCore Settings:")
@@ -186,6 +195,7 @@ def main():
                 print("All caches cleared.")
             elif args.provider:
                 from cmscribe.utils import get_repo_name
+
                 repo_name = get_repo_name()
                 if args.model:
                     cache_manager.clear_context(repo_name, args.provider, args.model)

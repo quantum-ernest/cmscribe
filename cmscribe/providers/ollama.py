@@ -26,8 +26,7 @@ class OllamaProvider(AIProvider):
     def generate_commit_message(self, commit_format: CommitFormat) -> tuple:
         """Generate a commit message using Ollama."""
         # Get the staged changes
-        from cmscribe.utils import (get_file_content_before_after,
-                                         get_staged_files)
+        from cmscribe.utils import get_file_content_before_after, get_staged_files
 
         staged_files = get_staged_files()
 
@@ -36,9 +35,7 @@ class OllamaProvider(AIProvider):
 
         # Get the diff content
         content = get_file_content_before_after(staged_files)
-        diff_content = "\n".join(
-            [f"File: {file}\n{content[file]}" for file in staged_files]
-        )
+        diff_content = "\n".join([f"File: {file}\n{content[file]}" for file in staged_files])
 
         # Format the prompt
         prompt = self._format_prompt(diff_content, commit_format)
@@ -90,9 +87,7 @@ class OllamaProvider(AIProvider):
                 "Format: <type>: <description>\n"
                 "Types: major, minor, patch"
             ),
-            CommitFormat.SIMPLE: (
-                "Generate a simple commit message.\n" "Format: <description>"
-            ),
+            CommitFormat.SIMPLE: ("Generate a simple commit message.\nFormat: <description>"),
             CommitFormat.ANGULAR: (
                 "Generate a commit message following the Angular format.\n"
                 "Format: <type>(<scope>): <description>\n"

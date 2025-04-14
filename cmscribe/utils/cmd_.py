@@ -3,11 +3,21 @@
 import argparse
 from typing import Any, Dict, Optional
 
-from cmscribe.core import (CommitFormat, create_config, get_default_provider,
-                           get_provider_config, update_config)
-from cmscribe.providers import (AnthropicProvider, AzureOpenAIProvider,
-                                GeminiProvider, HuggingFaceProvider,
-                                OllamaProvider, OpenAIProvider)
+from cmscribe.core import (
+    CommitFormat,
+    create_config,
+    get_default_provider,
+    get_provider_config,
+    update_config,
+)
+from cmscribe.providers import (
+    AnthropicProvider,
+    AzureOpenAIProvider,
+    GeminiProvider,
+    HuggingFaceProvider,
+    OllamaProvider,
+    OpenAIProvider,
+)
 
 
 def get_provider(provider_name: str, config: Dict[str, Any]):
@@ -73,7 +83,9 @@ def process_create_config() -> None:
     print("Configuration file created with default settings.")
 
 
-def process_update_config(args: argparse.Namespace, update_config_parser: argparse.ArgumentParser) -> None:
+def process_update_config(
+    args: argparse.Namespace, update_config_parser: argparse.ArgumentParser
+) -> None:
     """Process the update config command."""
     if not args.provider and not any(
         [

@@ -31,9 +31,7 @@ class CacheManager:
         """Get the path to the cache file for the given key."""
         return self.cache_dir / f"{cache_key}.json"
 
-    def get_context(
-        self, repo_name: str, provider: str, model: str
-    ) -> Optional[Dict[str, Any]]:
+    def get_context(self, repo_name: str, provider: str, model: str) -> Optional[Dict[str, Any]]:
         """Get cached context for the given repository, provider, and model."""
         cache_key = self._get_cache_key(repo_name, provider, model)
         cache_file = self._get_cache_file(cache_key)

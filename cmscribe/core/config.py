@@ -5,9 +5,7 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 # Cross-platform config dir
-CONFIG_DIR = (
-    Path.home() / (".config" if os.name != "nt" else "AppData" "Roaming") / "cmscribe"
-)
+CONFIG_DIR = Path.home() / (".config" if os.name != "nt" else "AppDataRoaming") / "cmscribe"
 DEFAULT_CONFIG_PATH = CONFIG_DIR / "config.ini"
 
 # Provider-specific default settings
@@ -148,9 +146,7 @@ def save_config(config: configparser.ConfigParser) -> None:
 def create_config() -> None:
     """Create a new configuration file with default settings."""
     if Path(DEFAULT_CONFIG_PATH).exists():
-        print(
-            f"Config already exists at {DEFAULT_CONFIG_PATH}. Use 'update' to modify."
-        )
+        print(f"Config already exists at {DEFAULT_CONFIG_PATH}. Use 'update' to modify.")
         return
     config = configparser.ConfigParser()
 
